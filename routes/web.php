@@ -101,27 +101,50 @@ Route::group(['middleware'=>'login'],function(){
     //申请结算
     Route::get("/app","yejiController@app");
     
-    //
-    //
-    //end
-    // // 客户个人中心
-    // // Route::resource("/customer","Admin\UserController");
-    // // 设备
-    // Route::resource("/shebei","Admin\ShebeiController");
-    // // 购物车
-    // Route::resource("/cart","Admin\CartController");
-    // // 购物车数量增加
-    // Route::get("/cartnumjia/{id}","Admin\CartController@cartnumjia");
-    // // 购物车数量减少
-    // Route::get("/cartnumjian/{id}","Admin\CartController@cartnumjian");
-    // // 购物车月数增加
-    // Route::get("/cartmonthjia/{id}","Admin\CartController@cartmonthjia");
-    // // 购物车月数减少
-    // Route::get("/cartmonthjian/{id}","Admin\CartController@cartmonthjian");
-    // // 购物车商品删除
-    // Route::get("/cartsc/{id}","Admin\CartController@cartsc");
-    // // 添加订单表
-    // Route::get("/order","Admin\CartController@order");
+// 刘洋  客户模块
+Route::resource("/shebei","Admin\ShebeiController");
+// 购物车
+Route::resource("/cart","Admin\CartController");
+// 购物车数量增加
+Route::get("/cartnumjia/{id}","Admin\CartController@cartnumjia");
+// 购物车数量减少
+Route::get("/cartnumjian/{id}","Admin\CartController@cartnumjian");
+// 购物车月数增加
+Route::get("/cartmonthjia/{id}","Admin\CartController@cartmonthjia");
+// 购物车月数减少
+Route::get("/cartmonthjian/{id}","Admin\CartController@cartmonthjian");
+// 购物车商品删除
+Route::get("/cartsc/{id}","Admin\CartController@cartsc");
+// 清空购物车
+Route::get("/cartqk","Admin\CartController@cartqk");
+// 添加订单表
+Route::get("/order","Admin\CartController@order");
+// 确认订单
+Route::get("/qrorder/{id}","Admin\CartController@qrorder");
+// 支付宝调用pays
+Route::post("/pays","Admin\CartController@pays");
+// 我的设备
+Route::resource("/mydevice","Admin\MyDeviceConrtoller");
+// 续费
+Route::post("/xfq","Admin\MyDeviceConrtoller@xfq");
+// 续费
+Route::get("/xf","Admin\MyDeviceConrtoller@xf");
+// 我的订单
+Route::resource("/myorder","Admin\OrderConrtoller");
+// 查看订单详情
+Route::get("/orderinfo/{id}","Admin\OrderConrtoller@orderinfo");
+// 续费时间增加
+Route::get("/xfmonthjia","Admin\MyDeviceConrtoller@xfmonthjia");
+// 续费时间减少
+Route::get("/xfmonthjian","Admin\MyDeviceConrtoller@xfmonthjian");
+// 续费订单添加
+Route::get("/xforder","Admin\MyDeviceConrtoller@xforder");
+// 查看续费订单详情
+Route::get("/xforderinfo/{id}","Admin\OrderConrtoller@xforderinfo");
+// 确认续费订单
+Route::get("/qrxforder/{id}","Admin\MyDeviceConrtoller@qrxforder");
+// 支付宝调用pays
+Route::post("/xfpays","Admin\MyDeviceConrtoller@xfpays");
 });
 
 //后台登录路由

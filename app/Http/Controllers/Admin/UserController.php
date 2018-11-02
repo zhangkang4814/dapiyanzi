@@ -15,8 +15,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        $id=1;
-        session()->put("cusid",$id);
         $user=DB::table("customer")->where("cid","=",$id)->first();
         return view("Admin.User.index",["user"=>$user]);
     }

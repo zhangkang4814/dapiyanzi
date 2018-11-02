@@ -147,12 +147,18 @@ class CartController extends Controller
       return redirect("/cart");
     }
 
+    // 清空购物车并返回
+    public function cartqk(){
+        session()->pull("shop");
+        return redirect("/shebei");
+    }
+
     // 添加订单表
     public function order(){
         $shop=session()->get("shop");
         // dd(session()->get("zongjia"));
-        $order['sq_time']=date("Y-m-d,h:i:s");
-        $order['state']=1;
+        $order['sq_time']=time();
+        $order['state']=0;
         $order['order_name']=time()+rand(1,10000);
         $order['cust_id']=session()->get("cusid");
         $order['total']=session()->get("zongjia");
@@ -164,10 +170,28 @@ class CartController extends Controller
            $order_info['num']=$value->num;
            $order_info['month']=$value->month;
            DB::table("order_info")->insert($order_info);
-           // 添加成功后的操作
-           // 清除session里面的购物数据
-           session()->pull("shop");
-           return redirect("/customer");
-        }
+         }
+         // 添加成功后的操作
+        // 清除session里面的购物数据
+         session()->pull('shop');
+         return redirect("/qrorder/{$id}");
     }
+
+    public function qrorder($id){
+        $orders=DB::table("order")->join("customer","order.cust_id","=","customer.cid")->where("id","=",$id)->get();
+        // dd($orders[0]);
+        $order=$orders[0];
+        return view("Admin.Cart.qrorder",["order"=>$order]);
+    }
+
+    public function pays(Request $request){
+       // dd($request->all());
+        $order_id=$request->input("order_id");
+        // dd($order_id);
+        // 更改订单表状态 等接口后需要修改
+        $data['state']=1;
+        DB::table("order")->where("id","=",$order_id)->update($data);
+        return redirect("/");
+    }
+
 }

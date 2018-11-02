@@ -64,9 +64,9 @@
                     <span class="menu-arrow arrow_carrot-right"></span>
                 </a>
                 <ul class="sub">
-                    <li><a class="" href="">选择设备</a></li>
-                    <li><a class="" href="buttons.html">我的设备</a></li>
-                    <li><a class="" href="grids.html">交易记录</a></li>
+                    <li><a class="" href="/shebei">选择设备</a></li>
+                    <li><a class="" href="/mydevice">我的设备</a></li>
+                    <li><a class="" href="/myorder">交易记录</a></li>
                 </ul>
             </li>
             <li class="sub-menu">

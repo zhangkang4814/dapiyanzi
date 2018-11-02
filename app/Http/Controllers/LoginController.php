@@ -40,7 +40,8 @@ class LoginController extends Controller
             $userinfo = User::where('id',$user->uid)
                         ->first();            
         }else{
-            
+            $userinfo = Customer::where('cid',$user->uid)
+                        ->first();
         }
         
     	if(empty($user)){
@@ -51,6 +52,8 @@ class LoginController extends Controller
             session()->flash('success','登录成功');
             session(['user' => $user]);
             session(['userinfo'=>$userinfo]);
+            $id=session('userinfo')->cid; //存入的是user_id
+            session()->put("cusid",$id);
             return redirect('/');    
             		
     	}
