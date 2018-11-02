@@ -77,6 +77,17 @@ Route::group(['middleware'=>'login'],function(){
     Route::post("/add_notice",'NoticeController@orm')->name('notice.orm');
     Route::get("/show_notice",'NoticeController@hq')->name('user_show');
     Route::get("/notice",'NoticeController@add')->name('useradd');
+    Route::get("/ht_settlement",'SettlementController@index');
+//ajax方法
+    Route::post("/sqtx",'SettlementController@sqtx');
+//显示页面
+    Route::get('/sqjs','SettlementController@jssq');
+//ajax
+    Route::post('/jiesuan','SettlementController@jiesuan');
+//历史记录
+    Route::get('/history','SettlementController@check');
+
+
     //
     //
     //end

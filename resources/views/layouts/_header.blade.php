@@ -314,6 +314,19 @@
                 </ul>
             </li>
 
+             <li class="sub-menu">
+                <a href="javascript:;" class="">
+                    <i class="icon_table"></i>
+                    <span>结算管理</span>
+                    <span class="menu-arrow arrow_carrot-right"></span>
+                </a>
+                <ul class="sub">
+                    <li><a class="" href="/ht_settlement">申请结算</a></li>
+                    <li><a class="" href="/sqjs">结算申请</a></li>
+                    <li><a class="" href="/history">历史结算记录表</a></li>
+                </ul>
+            </li>
+            
             <li class="sub-menu">
                 <a href="javascript:;" class="">
                     <i class="icon_table"></i>
