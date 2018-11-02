@@ -20,7 +20,7 @@
                     </tr>
                     @foreach($history as $kk)
                     <tr>
-                        <td>ZKKO</td>
+                        <td>{{$kk['name']}}</td>
                         <td>{{$kk['price']}}</td>
                         <td>{{$kk['proportions']}}%</td>
                         <td>{{$kk['state']}}</td>

@@ -87,7 +87,20 @@ Route::group(['middleware'=>'login'],function(){
 //历史记录
     Route::get('/history','SettlementController@check');
 
+    //业绩管理
+    Route::get("/yeji",'yejiController@index');
+    //个人业绩
+    Route::get("/yejichaxun/{id}",'yejiController@select');
+    //历史业绩
+    Route::get("/lishiyeji","yejiController@lishiyeji");
+    //历史个人记录业绩
+    Route::get("/lishigeren/{id}","yejiController@lishigeren");
+    //申请中的业绩
+    Route::get("/appli","yejiController@appli");
 
+    //申请结算
+    Route::get("/app","yejiController@app");
+    
     //
     //
     //end

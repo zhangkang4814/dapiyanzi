@@ -74,7 +74,7 @@ class SettlementController extends Controller
 	//结算申请方法
 	public function jssq(Request $request)
 	{
-		$uid=0;
+		$uid=session('userinfo')->id;
 		$js = settlement::join('user','user.id','=','settlement.user_id')
 							->where('settlement.state','=','0')
 							->where('user.father','=',$uid)
@@ -120,7 +120,7 @@ class SettlementController extends Controller
 	}
 	//查询历史记录方法
 	public function check(){
-		$history=settlement::where('state','=','1')->get();
+		$history=settlement::join('user','user.id','=','settlement.user_id')->where('state','=','1')->get();
 		// dd($history);
 		return view('history',compact('history'));
 	}
