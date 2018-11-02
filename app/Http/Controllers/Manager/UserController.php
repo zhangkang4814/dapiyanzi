@@ -24,7 +24,7 @@ class UserController extends Controller
             //查询所有数据返回给前台页面
             $find = session('userinfo')->id;
             $users = User::where('name','like','%'.$request->input('name').'%')
-                        ->where('find','like','%'.$find.'%')
+                        ->where('find','like','%,'.$find.',%')
                         ->orderBy('id','asc')
                         ->paginate(10);
 
@@ -189,7 +189,7 @@ class UserController extends Controller
     {
         $id = $request->input('id');
 
-        $users = User::where('find','like','%'.$id.'%')
+        $users = User::where('find','like','%,'.$id.',%')
                     ->paginate(10);
 
         $user = User::getTree($users,$id);
