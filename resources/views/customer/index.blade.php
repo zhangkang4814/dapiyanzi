@@ -32,6 +32,7 @@
 						<th>营业执照</th>
 						<th>操作</th>
                   </tr>
+                  @if(count($customer))
 				  @foreach($customer as $v)
                   <tr class="userinfo">
 						<td class="info">{{$v->cid}}</td>
@@ -51,7 +52,12 @@
                         </div>
                         </td>
                   </tr>
-            	  @endforeach                        
+            	  @endforeach
+            	  @else
+            	  <tr>
+            	  	<td colspan="10" align="center">暂无客户信息!</td>
+            	  </tr>
+            	  @endif                        
                </tbody>
                
                <script>

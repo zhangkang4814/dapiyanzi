@@ -5,5 +5,10 @@
 				{{ session() -> get($msg) }}
 			</p>
 	    </div>
+	    <script>
+		    setTimeout(function(){
+		    	$('.flash-message').hide();
+		    },2000)
+	    </script>
 	@endif
 @endforeach

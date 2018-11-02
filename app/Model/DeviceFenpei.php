@@ -8,7 +8,7 @@ class DeviceFenpei extends Model
 {
     protected $table = "device_fenpei";
 
-    protected $fillable = ['custom_id','confid', 'num', 'startime', 'expiretime', 'op', 'order_name',];
+    protected $fillable = ['custom_id','confid', 'num', 'time', 'op', 'order_name',];
 
     public $timestamps = false;
 }

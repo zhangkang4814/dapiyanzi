@@ -133,10 +133,12 @@ class DevicesController extends Controller
         }
         $confids_data = Device::whereIn('mid',$configs)->get();
         $order_infos = OrderInfo::whereIn('order_id',$order_id)->get();
-        $startime = time();
+        // $startime = time();
+        $time = time();
         foreach ($confids as $k => $confid) {
             $data[$k]['custom_id'] = $custom_id;
-            $data[$k]['startime'] = $startime;
+            // $data[$k]['startime'] = $startime;
+            $data[$k]['time'] = $time;
             $data[$k]['confid'] = $confid;
             $data[$k]['order_name'] = $request->input('order_name');
             $data[$k]['op'] = $op;
@@ -146,12 +148,12 @@ class DevicesController extends Controller
                     $data[$k]['num'] += 1;
                 }
             }
-            foreach ($order_infos as $order_info) {
-                if ($confid == $order_info->conf_id) {
-                    $day = 15+($order_info->month*30);
-                    $data[$k]['expiretime'] = strtotime("+$day day");
-                }
-            }
+            // foreach ($order_infos as $order_info) {
+            //     if ($confid == $order_info->conf_id) {
+            //         $day = 15+($order_info->month*30);
+            //         $data[$k]['expiretime'] = strtotime("+$day day");
+            //     }
+            // }
         }   
         foreach ($data as $k => $v) {
             foreach ($order_infos as $order_info) {
@@ -193,7 +195,7 @@ class DevicesController extends Controller
             $month = OrderInfo::where([['conf_id',$configs_confid[0]->confid],['order_id',$order_id]])->get();
             $day = 15+($month[0]->month*30);
             $expiretime = strtotime("+$day day");
-            $device = Device::where('mid',$config)->update(['op'=>$op,'customid'=>$custom_id,'state'=>1,'usestate'=>1,'startime'=>$startime,'expiretime'=>$expiretime]);
+            $device = Device::where('mid',$config)->update(['op'=>$op,'customid'=>$custom_id,'state'=>1,'usestate'=>1,'startime'=>$time,'expiretime'=>$expiretime]);
             if (!$device) {
                 session()->flash('danger','分配失败!');
                 return back();

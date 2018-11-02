@@ -33,40 +33,46 @@
 						<th>分成比例(%)</th>
 						<th>操作</th>
                   </tr>
+                  @if($user)
 				  @foreach($user as $v)
                   <tr class="userinfo">
-                  		<td class="info" name="name">{{$v->name}}</td>
-						<td class="info" style="display:none">{{$v->id}}</td>
-						<td class="info" name="cop">{{$v->cop}}</td>
-						<td class="info" name="id_card">{{$v->id_card}}</td>
-						<td class="info" name="phone">{{$v->phone}}</td>
-						<td class="info" name="address">{{$v->address}}</td>
-						<td class="info" name="area">{{$v->area}}</td>
-						<td class="info" name="qq">{{$v->qq}}</td>
-						<td class="info" name="bank_card">{{$v->bank_card}}</td>
-						<td class="info">
-						@if($v->auth==1)
-						代理商
-						@elseif($v->auth==2)
-						经销商
-						@else
-						业务员
-						@endif
-						</td>
-						<td class="info" name="proportions">{{$v->proportions}}</td>
-                     	<td>
-                        <div class="btn-group">
-                          @if($v->son)
-                          <a class="btn btn-info" href="/user/grade?id={{$v->id}}">下级</a>
-                          @endif
-                          @if(session('user')->uid!=$v->id)
-                          <a class="btn btn-primary" href="/user/edit?id={{$v->id}}">修改</a>
-                          <a class="btn btn-danger del" href="javascript:void(0)">删除</a>
-                          @endif
-                        </div>
-                        </td>
+              		<td class="info" name="name">{{$v->name}}</td>
+					<td class="info" style="display:none">{{$v->id}}</td>
+					<td class="info" name="cop">{{$v->cop}}</td>
+					<td class="info" name="id_card">{{$v->id_card}}</td>
+					<td class="info" name="phone">{{$v->phone}}</td>
+					<td class="info" name="address">{{$v->address}}</td>
+					<td class="info" name="area">{{$v->area}}</td>
+					<td class="info" name="qq">{{$v->qq}}</td>
+					<td class="info" name="bank_card">{{$v->bank_card}}</td>
+					<td class="info">
+					@if($v->auth==1)
+					代理商
+					@elseif($v->auth==2)
+					经销商
+					@else
+					业务员
+					@endif
+					</td>
+					<td class="info" name="proportions">{{$v->proportions}}</td>
+                 	<td>
+                    <div class="btn-group">
+                      @if($v->son)
+                      <a class="btn btn-info" href="/user/grade?id={{$v->id}}">下级</a>
+                      @endif
+                      @if(session('user')->uid!=$v->id)
+                      <a class="btn btn-primary" href="/user/edit?id={{$v->id}}">修改</a>
+                      <a class="btn btn-danger del" href="javascript:void(0)">删除</a>
+                      @endif
+                    </div>
+                    </td>
                   </tr>
             	  @endforeach
+            	  @else
+            	  <tr>
+            	  	<td colspan="13" align="center">暂无用户信息!</td>
+            	  </tr>
+            	  @endif
             	  <tr>
             	  	<td colspan="13" align="right">
                           <a class="btn btn-success" href="/user/create">添加</a>

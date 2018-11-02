@@ -19,24 +19,19 @@ class UserController extends Controller
             $users = User::where('name','like','%'.$request->input('name').'%')
                         ->orderBy('id','asc')
                         ->paginate(10);
+            $pid = 0;
         }elseif(session('user')->role>0){
             //查询所有数据返回给前台页面
+            $find = session('userinfo')->id;
             $users = User::where('name','like','%'.$request->input('name').'%')
-                        ->where(function($query){
-                            $find = session('user')->uid;
-                            $query->where('id','=',$find)
-                                  ->orwhere('find','like','%'.$find.'%');
-                        })
+                        ->where('find','like','%'.$find.'%')
                         ->orderBy('id','asc')
-                        ->paginate(5);
+                        ->paginate(10);
+
+            $pid = session('userinfo')->id;
+
         }else{
 
-        }
-
-        if(session('userinfo')){
-            $pid = session('userinfo')->father;
-        }else{
-            $pid = 0;
         }
 
         $user = User::getTree($users,$pid);

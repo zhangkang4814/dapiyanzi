@@ -36,8 +36,7 @@
                         <th>客户</th>
                         <th>配置</th>
                         <th>数量</th>
-                        <th>开始时间</th>
-                        <th>结束时间</th>
+                        <th>分配时间</th>
                         <th>操作员</th>
                     </tr>
                     </thead>
@@ -47,8 +46,7 @@
                             <td>{{ $v->custom_name }}</td>
                             <td>{{ $v->system }}--{{ $v->cpu }}--{{ $v->memory }}--{{ $v->video_card }}</td>
                             <td>{{ $v->num }}</td>
-                            <td>{{ date('Y-m-d H:i:s',$v->startime) }}</td>
-                            <td>{{ date('Y-m-d H:i:s',$v->expiretime) }}</td>
+                            <td>{{ date('Y-m-d H:i:s',$v->time) }}</td>
                             <td>{{ $v->op }}</td>
                         </tr>
                     @endforeach
