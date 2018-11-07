@@ -5,8 +5,16 @@ namespace App\Http\Controllers\Customer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB; 
-use App\Model\Customer;
+use App\Model\User;
 use App\Model\Login;
+use App\Model\Manager;
+use App\Model\Device;
+use App\Model\Customer;
+use App\Model\Order;
+use App\Model\OrderInfo;
+use App\Model\Config;
+use App\Model\DeviceFenpei;
+use App\Model\Settlement;
 
 
 class CustomerController extends Controller
@@ -27,6 +35,17 @@ class CustomerController extends Controller
     //执行添加操作
     public function store(Request $request)
     {   
+
+        $login = $request->only(['username','password']);
+        $login['password'] = md5($login['password']);
+        $username = Login::where('username',$login['username'])
+                            ->first();
+        if($username){
+            session()->flash('warning','用户名已存在!!');
+            return redirect('/customer/create');
+        }
+
+        //上传营业执照
     	$file = $request->file('business_pic');
     	if($file->isValid()){
 	    	$url_path = '/upload';
@@ -46,8 +65,7 @@ class CustomerController extends Controller
     	$customer = $request->except(['_token','username','password']);
     	$customer['user_id'] = session('userinfo')->id;
     	$customer['business_pic'] = $namePath;
-    	$login = $request->only(['username','password']);
-        $login['password'] = md5($login['password']);
+
         DB::beginTransaction();
         try {
             $userid = Customer::create($customer)->id;
@@ -135,5 +153,25 @@ class CustomerController extends Controller
         }
 		
         return 1;
+    }
+
+    public function check(Request $request)
+    {   
+        $id = $request->route('cid');
+
+        $customer = Customer::where('cid',$id)
+                            ->first();
+
+        $device = Device::join('config','config.id','=','device.confid')
+                        ->where('customid',$id)
+                        ->where('state','>',0)
+                        ->get();
+
+        $order = Order::join('order_info','order.id','=','order_info.order_id')
+                        ->join('config','order_info.conf_id','=','config.id')
+                        ->where('cust_id',$id)
+                        ->paginate(4);
+
+        return view('customer.check',compact(['customer','device','order']));
     }
 }

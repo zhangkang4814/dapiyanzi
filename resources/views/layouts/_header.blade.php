@@ -4,7 +4,7 @@
     </div>
 
     <!--logo start-->
-    <a href="/" class="logo">我骗子 <span class="lite">打钱</span></a>
+    <a href="/" class="logo">小芯机 <span class="lite">后台管理系统</span></a>
     <!--logo end-->
     <div class="top-nav notification-row">                
         <!-- notificatoin dropdown start-->
@@ -83,7 +83,9 @@
                     <span class="menu-arrow arrow_carrot-right"></span>
                 </a>
                 <ul class="sub">
-                    <li><a class="" href="{{route('user')}}">用户列表</a></li>
+                    @foreach(session('level') as $k => $v)
+                     <li class="sub-menu"><a class="" href="{{route('user',$k+1)}}">{{$v}}级用户</a></li>
+                    @endforeach
                     <li><a class="" href="{{route('usercreate')}}">添加用户</a></li>
                 </ul>
             </li>

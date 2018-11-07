@@ -8,41 +8,53 @@ use Illuminate\Support\Facades\DB;
 use App\Model\User;
 use App\Model\Login;
 use App\Model\Manager;
+use App\Model\Device;
+use App\Model\Customer;
+use App\Model\Order;
+use App\Model\OrderInfo;
+use App\Model\Config;
+use App\Model\DeviceFenpei;
+use App\Model\Settlement;
 
 class UserController extends Controller
 {	
 	//用户列表页
     public function index(Request $request)
-    {   
-        if(session('user')->role==0){
+    {      
+        $level = $request -> route('level');
+
+        if(session('user')->role == 0){
             //查询所有数据返回给前台页面
-            $users = User::where('name','like','%'.$request->input('name').'%')
-                        ->orderBy('id','asc')
-                        ->paginate(10);
-            $pid = 0;
-        }elseif(session('user')->role>0){
-            //查询所有数据返回给前台页面
-            $find = session('userinfo')->id;
-            $users = User::where('name','like','%'.$request->input('name').'%')
-                        ->where('find','like','%'.$find.'%')
+            
+            $users = User::where('level',$level)
                         ->orderBy('id','asc')
                         ->paginate(10);
 
-            $pid = session('userinfo')->id;
+        }elseif(session('user')->role > 0 && $level == session('userinfo')->level){
 
-        }else{
+            $users = User::where('id',session('userinfo')->id)
+                        ->orderBy('id','asc')
+                        ->paginate(10);
 
+        }elseif(session('user')->role > 0 && $level != session('userinfo')->level){
+
+            $users = User::where('find','like','%,'.session('userinfo')->id.',%')
+                        ->where('level',$level)
+                        ->orderBy('id','asc')
+                        ->paginate(10);
+        }elseif(session('user') < 0){
+
+            session()->flash('warning','没有权限');
+            return redirect('/');
         }
 
-        $user = User::getTree($users,$pid);
-
-        return view('user.index',['users'=>$users,'user'=>$user,'request'=>$request->all()]);
+        return view('user.index',['users'=>$users,'request'=>$request->all()]);
     	
     }
 
     //添加用户页面
     public function create()
-    {
+    {   
     	return view('user.add');
     }
 
@@ -52,6 +64,14 @@ class UserController extends Controller
     	$user = $request->except(['_token','username','password']);
     	$login = $request->only(['username','password']);
         $login['password'] = md5($login['password']);
+
+        $username = Login::where('username',$login['username'])
+                            ->first();
+        if($username){
+            session()->flash('warning','用户名已存在!!');
+            return redirect('/user/create');
+        }
+
         $login['role'] = $user['auth'];
         if($user['auth']==0){
             DB::beginTransaction();
@@ -72,6 +92,7 @@ class UserController extends Controller
                             ->first(['find']);
                 $user['find'] = $find->find.$user['father'].',';
             }
+            $user['level'] = substr_count($user['find'],',');
             DB::beginTransaction();
             try {
                 $userid = User::create($user)->id;
@@ -184,18 +205,27 @@ class UserController extends Controller
     	return view('user.profile',compact('user'));
     }
 
-    //分级
-    public function grade(Request $request)
-    {
-        $id = $request->input('id');
+    //查看
+    public function check(Request $request)
+    {   
+        $id = $request->route('id');
 
-        $users = User::where('find','like','%'.$id.'%')
-                    ->paginate(10);
+        $users = User::where('id',$id)
+                    ->first();
 
-        $user = User::getTree($users,$id);
+        $son = User::where('father',$id)
+                    ->get();
 
+        $customer = Customer::where('user_id',$id)
+                            ->get();
 
-        return view('user.index',compact(['user','users']));
+        $settlement = Settlement::where('user_id',$id)
+                                ->where('state',1)
+                                ->get();
+
+        $yeji = DB::table('achievement')->where('user_id',$id)->get();
+
+        return view('user.check',compact(['users','son','customer','settlement','yeji']));
     }
-
+    
 }

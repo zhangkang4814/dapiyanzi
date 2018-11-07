@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    protected $fillable = ['cop','id_card','name','phone','address','qq','bank_card','auth','father','find','proportions','area'];
+    protected $fillable = ['cop','id_card','name','phone','address','qq','bank_card','auth','father','find','proportions','area','level'];
 
     protected $table = 'user';
 

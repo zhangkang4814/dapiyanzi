@@ -49,7 +49,12 @@ class LoginController extends Controller
     		return redirect('/admin/login');
 
     	}else{
+            $level = User::max('find');
+            $level = substr_count($level,',');
+            $arr = ['一','二','三','四','五','六','七','八','九','十'];
+            $level = array_slice($arr,0,$level);
             session()->flash('success','登录成功');
+            session(['level'=>$level]);
             session(['user' => $user]);
             session(['userinfo'=>$userinfo]);
             $id=session('userinfo')->cid; //存入的是user_id

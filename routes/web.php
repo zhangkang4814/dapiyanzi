@@ -40,14 +40,14 @@ Route::group(['middleware'=>'login'],function(){
     
     //用户  章康
     Route::get('/','LoginController@index');
-	Route::get('user','Manager\Usercontroller@index')->name('user');
+	Route::get('{level}/user','Manager\Usercontroller@index')->name('user');
 	Route::get('user/create','Manager\Usercontroller@create')->name('usercreate');
 	Route::post('user/store','Manager\Usercontroller@store');
 	Route::get('user/edit','Manager\Usercontroller@edit');
 	Route::post('user/update','Manager\Usercontroller@update');
 	Route::post('user/destroy','Manager\Usercontroller@destroy');
 	Route::get('user/show','Manager\Usercontroller@show');
-	Route::post('user/gettree','Manager\Usercontroller@gettree');
+	Route::get('user/check/{id}','Manager\Usercontroller@check')->name('usercheck');
 	Route::get('/admin/loginout','LoginController@loginout');
 	Route::get('user/grade','Manager\Usercontroller@grade');
 	Route::get('customer','Customer\CUstomerController@index')->name('customer');
@@ -56,6 +56,7 @@ Route::group(['middleware'=>'login'],function(){
 	Route::post('customer/destroy','Customer\CUstomerController@destroy');
 	Route::get('customer/edit','Customer\CUstomerController@edit');
     Route::post('customer/update','Customer\CUstomerController@update');
+    Route::get('customer/check/{cid}','Customer\CUstomerController@check')->name('customcheck');
     //end 章康
 
 	//设备  张仁灿

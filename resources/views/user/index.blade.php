@@ -27,14 +27,14 @@
 						<th>手机号</th>
 						<th>地址</th>
 						<th>区域</th>
-						<th>QQ号</th>
+						<th>上级用户</th>
 						<th>银行卡号</th>
 						<th>用户身份</th>
 						<th>分成比例(%)</th>
 						<th>操作</th>
                   </tr>
-                  @if($user)
-				  @foreach($user as $v)
+                  @if(count($users))
+				  @foreach($users as $v)
                   <tr class="userinfo">
               		<td class="info" name="name">{{$v->name}}</td>
 					<td class="info" style="display:none">{{$v->id}}</td>
@@ -43,7 +43,17 @@
 					<td class="info" name="phone">{{$v->phone}}</td>
 					<td class="info" name="address">{{$v->address}}</td>
 					<td class="info" name="area">{{$v->area}}</td>
-					<td class="info" name="qq">{{$v->qq}}</td>
+					<td class="info" name="qq">
+					<?php 
+						$father = App\Model\User::where('id',$v->father)->first(['name']);
+
+					?>
+					@if($father)
+					{{$father->name}}
+					@else
+					无
+					@endif
+					</td>
 					<td class="info" name="bank_card">{{$v->bank_card}}</td>
 					<td class="info">
 					@if($v->auth==1)
@@ -57,9 +67,7 @@
 					<td class="info" name="proportions">{{$v->proportions}}</td>
                  	<td>
                     <div class="btn-group">
-                      @if($v->son)
-                      <a class="btn btn-info" href="/user/grade?id={{$v->id}}">下级</a>
-                      @endif
+                      <a class="btn btn-info" href="{{ route('usercheck',$v->id) }}">查看</a>
                       @if(session('user')->uid!=$v->id)
                       <a class="btn btn-primary" href="/user/edit?id={{$v->id}}">修改</a>
                       <a class="btn btn-danger del" href="javascript:void(0)">删除</a>
@@ -68,17 +76,17 @@
                     </td>
                   </tr>
             	  @endforeach
+            	  <tr>
+            	  	<td colspan="13" align="right">
+                          <a class="btn btn-success" href="{{ route('usercreate') }}">添加</a>
+            	  	</td>
+            	  </tr>
             	  @else
             	  <tr>
             	  	<td colspan="13" align="center">暂无用户信息!</td>
             	  </tr>
             	  @endif
-            	  <tr>
-            	  	<td colspan="13" align="right">
-                          <a class="btn btn-success" href="/user/create">添加</a>
-                          <a class="btn btn-success back" href="javascript:void(0)">返回</a>
-            	  	</td>
-            	  </tr>                        
+            	                          
                </tbody>
                
                <script>

@@ -22,14 +22,14 @@
                   </div>             
                   <h6>
                   @if(session('user')->role==0)
-				  管理员
-				  @elseif(session('userinfo')->auth==1)
-				  代理商
-				  @elseif(session('userinfo')->auth==2)
-				  经销商
-				  @else
-				  业务员
-				  @endif
+            		  管理员
+            		  @elseif(session('userinfo')->auth==1)
+            		  代理商
+            		  @elseif(session('userinfo')->auth==2)
+            		  经销商
+            		  @else
+            		  业务员
+            		  @endif
                   </h6>
                 </div>
                 <div class="col-lg-4 col-sm-4 follow-info">
